@@ -53,7 +53,7 @@ controls.enableDamping = true
  */
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas, 
-    /* alpha: true */
+    alpha: true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -149,6 +149,7 @@ platesMaterial.envMapIntensity = 0.9
 
 const rockMaterial = new THREE.MeshStandardMaterial()
 rockMaterial.map = rockTextureColor
+rockMaterial
 rockMaterial.aoMap = rockTextureAmbientOcclusion
 rockMaterial.aoMapIntensity = 1
 rockMaterial.displacementMap = rockTextureDisplacement
@@ -172,6 +173,11 @@ platesMesh.position.y = 2
 const rockMesh = new THREE.Mesh(sphereGeometry, rockMaterial)
 rockMesh.position.x = 2
 rockMesh.position.y = -2
+
+console.log(rockMesh.geometry.attributes.uv.array)
+
+// Adding Ambient Occlusion UV coordinates
+rockMesh.geometry.setAttribute('uv2', new THREE.BufferAttribute(rockMesh.geometry.attributes.uv.array, 2))
 
 scene.add(leatherMesh, metalMesh, platesMesh, rockMesh)
 
